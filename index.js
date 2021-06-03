@@ -34,6 +34,7 @@ module.exports = {
   get calcGasFee () { return require('./src/calcGasFee') },
   get computeAccountBytecode () { return require('./src/computeAccountBytecode') },
   get deployData () { return require('./src/deployData') },
+  get deployTestTokens () { return require('./src/deployTestTokens') },
   get deployUniswapV2 () { return require('./src/deployUniswapV2') },
   get encodedFnSignature () { return require('./src/encodedFnSignature') },
   get encodedParams () { return require('./src/encodedParams') },
