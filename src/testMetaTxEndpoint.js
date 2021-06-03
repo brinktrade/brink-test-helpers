@@ -1,5 +1,6 @@
-const { expectRevert } = require('@openzeppelin/test-helpers')
+const chaiSolidity = require('./chaiSolidity')
 const { metaTxPromise, nextAvailableBit } = require('./metaTx')
+const { expect } = chaiSolidity()
 
 function testMetaTxEndpoint ({ only, contract, method, paramTypes, conditions }) {
   const describeFn = only ? describe.only : describe
@@ -39,7 +40,7 @@ function testMetaTxEndpoint ({ only, contract, method, paramTypes, conditions })
           this.bit = bit
           const signer = await getSigner()
           const { promise } = await getFunctionCallPromise.call(this, signer)
-          await expectRevert(promise, expectRevertMsg)
+          await expect(promise).to.be.revertedWith(expectRevertMsg)
         })
       }
 
