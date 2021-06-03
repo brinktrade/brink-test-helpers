@@ -39,6 +39,7 @@ module.exports = {
   get encodedFnSignature () { return require('./src/encodedFnSignature') },
   get encodedParams () { return require('./src/encodedParams') },
   get encodeFunctionCall () { return require('./src/encodeFunctionCall') },
+  get expectBN () { return require('./src/expectBN') },
   get latestBlock () { return require('./src/latestBlock') },
   get signMetaTx () { return metaTx.signMetaTx },
   get metaTxPromise () { return metaTx.metaTxPromise },
