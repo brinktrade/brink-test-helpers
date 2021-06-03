@@ -1,0 +1,18 @@
+{
+  "name": "@brinkninja/test-helpers",
+  "version": "0.1.0",
+  "dependencies": {
+    "@openzeppelin/contracts": "3.4.1-solc-0.7-2",
+    "@openzeppelin/test-helpers": "^0.5.4",
+    "chai": "^4.3.4",
+    "ethereumjs-abi": "^0.6.8",
+    "ethereumjs-util": "^7.0.0",
+    "hardhat": "^2.3.0",
+    "lodash": "4.17.21",
+    "web3-eth-abi": "^1.2.7",
+    "web3-utils": "^1.3.6"
+  },
+  "description": "Helpers for Brink smart contract tests",
+  "author": "@mikec & @kyrrui",
+  "license": "MIT"
+}
