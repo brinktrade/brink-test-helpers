@@ -1,3 +1,4 @@
+const { constants } = require('@openzeppelin/test-helpers')
 const balanceTests = require('./src/balanceTests')
 const bn = require('./src/bignumber')
 const metaTx = require('./src/metaTx')
@@ -48,5 +49,6 @@ module.exports = {
   get nextAvailableBit () { return metaTx.nextAvailableBit },
   get randomAddress () { return require('./src/randomAddress') },
   get splitCallData () { return require('./src/splitCallData') },
-  get testMetaTxEndpoint () { return require('./src/testMetaTxEndpoint') }
+  get testMetaTxEndpoint () { return require('./src/testMetaTxEndpoint') },
+  get ZERO_ADDRESS() { return constants.ZERO_ADDRESS }
 }
