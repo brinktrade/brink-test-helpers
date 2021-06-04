@@ -90,8 +90,8 @@ const execMetaTx = async ({
     params,
     value
   })
-  const receipt = await promise
-  return { receipt, signedData }
+  const tx = await promise
+  return { tx, signedData }
 }
 
 async function nextAvailableBit (contract) {
