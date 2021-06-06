@@ -1,47 +1,32 @@
 const _ = require('lodash')
-const { ethers } = require('hardhat')
-const { padLeft } = require('web3-utils')
-const bnToBinaryString = require('./bnToBinaryString')
-const BN = ethers.BigNumber.from
 
 const signMetaTx = async ({
   contract,
   method,
-  bitmapIndex,
-  bit,
   signer,
-  paramTypes = [],
   params = []
 }) => {
-  const typedData = getTypedData(contract.address, method, bitmapIndex, bit, paramTypes, params)
+  const typedData = getTypedData(contract.address, method, params)
   const signature = await signTypedData(signer, typedData)
-  return { bitmapIndex, bit, typedData, to: contract.address, method, signature, signer, params }
+  return { typedData, to: contract.address, method, signature, signer, params }
 }
 
 const metaTxPromise = async ({
   contract,
   method,
-  bitmapIndex,
-  bit,
   signer,
-  unsignedParams = [],
-  paramTypes = [],
   params = [],
+  unsignedParams = [],
   value = 0
 }) => {
   const signedData = await signMetaTx({
     contract,
     method,
-    bitmapIndex,
-    bit,
     signer,
-    paramTypes,
     params
   })
   let opts = { value }
   const promise = contract[method].apply(this, [
-    signedData.bitmapIndex,
-    signedData.bit,
     ...signedData.params,
     signedData.signature,
     ...unsignedParams,
@@ -58,8 +43,6 @@ const metaTxPromiseWithSignedData = ({
 }) => {
   let opts = { value }
   const promise = contract[signedData.method].apply(this, [
-    signedData.bitmapIndex,
-    signedData.bit,
     ...signedData.params,
     signedData.signature,
     ...unsignedParams,
@@ -71,52 +54,21 @@ const metaTxPromiseWithSignedData = ({
 const execMetaTx = async ({
   contract,
   method,
-  bitmapIndex,
-  bit,
   signer,
-  unsignedParams = [],
-  paramTypes = [],
   params = [],
+  unsignedParams = [],
   value
 }) => {
   const { promise, signedData } = await metaTxPromise({
     contract,
-    method, 
-    bitmapIndex,
-    bit,
+    method,
     signer,
     unsignedParams,
-    paramTypes,
     params,
     value
   })
   const tx = await promise
   return { tx, signedData }
-}
-
-async function nextAvailableBit (contract) {
-  let curBitmap, curBitmapBinStr
-  let curBitmapIndex = -1
-  let nextBitIndex = -1
-  while(nextBitIndex < 0) {
-    curBitmapIndex++
-    curBitmap = await contract.getReplayProtectionBitmap(curBitmapIndex)
-    curBitmapBinStr = reverseStr(padLeft(bnToBinaryString(curBitmap), 256, '0'))
-    for (let i = 0; i < curBitmapBinStr.length; i++) {
-      if (curBitmapBinStr.charAt(i) == '0') {
-        nextBitIndex = i
-        break
-      }
-    }
-  }
-  return {
-    bitmapIndex: BN(curBitmapIndex),
-    bit: BN(2).pow(BN(nextBitIndex))
-  }
-}
-
-function reverseStr (str) {
-  return str.split("").reverse().join("")
 }
 
 async function signTypedData(signer, typedData) {
@@ -129,15 +81,13 @@ async function signTypedData(signer, typedData) {
 }
 
 // get typed data object for EIP712 signature
-function getTypedData(verifyingContract, method, bitmapIndex, bit, paramTypes, params) {
+function getTypedData(verifyingContract, method, params) {
+  const paramTypes = metaTxParamTypes[method]
+  if (!paramTypes) throw new Error(`unknown method ${method}`)
   const methodType = capitalize(method)
   let typedData = {
     types: {
-      [`${methodType}`]: [
-        { name: "bitmapIndex", type: "uint256" },
-        { name: "bit", type: "uint256" },
-        ...paramTypes
-      ]
+      [`${methodType}`]: paramTypes
     },
     domain: {
       name: "BrinkAccount",
@@ -145,10 +95,7 @@ function getTypedData(verifyingContract, method, bitmapIndex, bit, paramTypes, p
       chainId: 1,
       verifyingContract
     },
-    value: {
-      bitmapIndex: bitmapIndex.toString(),
-      bit: bit.toString()
-    }
+    value: { }
   }
   for (var i in paramTypes) {
     const { name } = paramTypes[i]
@@ -164,10 +111,29 @@ const capitalize = (s) => {
   return s.charAt(0).toUpperCase() + s.slice(1)
 }
 
+const metaTxParamTypes = {
+  metaCall: [
+    { name: 'value', type: 'uint256' },
+    { name: 'to', type: 'address' },
+    { name: 'data', type: 'bytes' }
+  ],
+  
+  metaDelegateCall: [
+    { name: 'to', type: 'address' },
+    { name: 'data', type: 'bytes' }
+  ],
+  
+  metaPartialSignedDelegateCall: [
+    { name: 'to', type: 'address' },
+    { name: 'data', type: 'bytes' }
+  ],
+}
+
+
 module.exports = {
   signMetaTx,
   metaTxPromise,
   metaTxPromiseWithSignedData,
   execMetaTx,
-  nextAvailableBit
+  metaTxParamTypes
 }
