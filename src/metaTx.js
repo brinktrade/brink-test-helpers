@@ -16,9 +16,10 @@ const metaTxPromise = async ({
   method,
   signer,
   params = [],
-  unsignedParams = [],
+  unsignedData,
   value = 0
 }) => {
+  const unsignedParams = unsignedData ? [unsignedData] : []
   const signedData = await signMetaTx({
     contract,
     method,
@@ -37,10 +38,11 @@ const metaTxPromise = async ({
 
 const metaTxPromiseWithSignedData = ({
   contract,
-  unsignedParams = [],
   value = 0,
   signedData,
+  unsignedData
 }) => {
+  const unsignedParams = unsignedData ? [unsignedData] : []
   let opts = { value }
   const promise = contract[signedData.method].apply(this, [
     ...signedData.params,
@@ -56,15 +58,15 @@ const execMetaTx = async ({
   method,
   signer,
   params = [],
-  unsignedParams = [],
+  unsignedData,
   value
 }) => {
   const { promise, signedData } = await metaTxPromise({
     contract,
     method,
     signer,
-    unsignedParams,
     params,
+    unsignedData,
     value
   })
   const tx = await promise
