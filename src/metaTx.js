@@ -1,4 +1,4 @@
-const _ = require('lodash')
+const signEIP712 = require('./signEIP712')
 
 const signMetaTx = async ({
   contract,
@@ -6,8 +6,19 @@ const signMetaTx = async ({
   signer,
   params = []
 }) => {
-  const typedData = getTypedData(contract.address, method, params)
-  const signature = await signTypedData(signer, typedData)
+  const paramTypes = metaTxParamTypes[method]
+  if (!paramTypes) throw new Error(`unknown method ${method}`)
+
+  const { typedData, signature } = await signEIP712({
+    signer,
+    contractAddress: contract.address,
+    contractName: 'BrinkAccount',
+    contractVersion: '1',
+    chainId: 1,
+    method,
+    paramTypes,
+    params
+  })
   return { typedData, to: contract.address, method, signature, signer, params }
 }
 
@@ -71,46 +82,6 @@ const execMetaTx = async ({
   })
   const tx = await promise
   return { tx, signedData }
-}
-
-async function signTypedData(signer, typedData) {
-  const signedData = await signer._signTypedData(
-    typedData.domain,
-    typedData.types,
-    typedData.value
-  )
-  return signedData
-}
-
-// get typed data object for EIP712 signature
-function getTypedData(verifyingContract, method, params) {
-  const paramTypes = metaTxParamTypes[method]
-  if (!paramTypes) throw new Error(`unknown method ${method}`)
-  const methodType = capitalize(method)
-  let typedData = {
-    types: {
-      [`${methodType}`]: paramTypes
-    },
-    domain: {
-      name: "BrinkAccount",
-      version: "1",
-      chainId: 1,
-      verifyingContract
-    },
-    value: { }
-  }
-  for (var i in paramTypes) {
-    const { name } = paramTypes[i]
-    const paramValue = params[i]
-    if (_.isUndefined(paramValue)) throw new Error(`No value for param "${name}"`)
-    typedData.value[name] = paramValue.toString()
-  }
-  return typedData
-}
-
-const capitalize = (s) => {
-  if (typeof s !== 'string') return ''
-  return s.charAt(0).toUpperCase() + s.slice(1)
 }
 
 const metaTxParamTypes = {

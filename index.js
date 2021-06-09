@@ -49,6 +49,7 @@ module.exports = {
   get metaTxParamTypes () { return metaTx.metaTxParamTypes },
   get nextAvailableBit () { return require('./src/nextAvailableBit') },
   get randomAddress () { return require('./src/randomAddress') },
+  get signEIP712 () { return require('./src/signEIP712') },
   get splitCallData () { return require('./src/splitCallData') },
   get testMetaTxEndpoint () { return require('./src/testMetaTxEndpoint') },
   get ZERO_ADDRESS() { return constants.ZERO_ADDRESS }
