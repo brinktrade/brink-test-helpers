@@ -15,5 +15,5 @@
   },
   "description": "Helpers for Brink smart contract tests",
   "author": "@mikec & @kyrrui",
-  "license": "MIT"
+  "license": "GPL-3.0-or-later"
 }
