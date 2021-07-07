@@ -2,8 +2,8 @@ const { ethers } = require('hardhat')
 const { constants } = require('@openzeppelin/test-helpers')
 const { MAX_UINT256: MAX_UINT256_BN } = constants
 const { BN, BN18 } = require('./bignumber')
-const uniswapV2Contracts = require('../uniswapV2/uniswapV2Contracts')
-const weth9Contract = require('../weth9/weth9Contract')
+const uniswapV2Contracts = require('../../uniswapV2/uniswapV2Contracts')
+const weth9Contract = require('../../weth9/weth9Contract')
 
 const MAX_UINT256 = BN(MAX_UINT256_BN.toString())
 

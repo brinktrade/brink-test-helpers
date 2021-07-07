@@ -1,6 +1,6 @@
 const { padLeft } = require('web3-utils')
 const { ethers } = require('hardhat')
-const bnToBinaryString = require('./bnToBinaryString')
+const bnToBinaryString = require('../bnToBinaryString')
 const BN = ethers.BigNumber.from
 
 async function nextAvailableBit (contract) {

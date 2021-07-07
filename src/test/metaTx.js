@@ -1,4 +1,4 @@
-const signEIP712 = require('./signEIP712')
+const signEIP712 = require('../signEIP712')
 
 const signMetaTx = async ({
   contract,
