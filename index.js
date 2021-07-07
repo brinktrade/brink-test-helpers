@@ -1,7 +1,7 @@
 const { constants } = require('@openzeppelin/test-helpers')
-const balanceTests = require('./src/balanceTests')
-const bn = require('./src/bignumber')
-const metaTx = require('./src/metaTx')
+const balanceTests = require('./src/test/balanceTests')
+const bn = require('./src/test/bignumber')
+const metaTx = require('./src/test/metaTx')
 
 module.exports = {
   get bnToBinaryString () { return require('./src/bnToBinaryString') },
@@ -11,25 +11,25 @@ module.exports = {
   get encodedFnSignature () { return require('./src/encodedFnSignature') },
   get encodedParams () { return require('./src/encodedParams') },
   get encodeFunctionCall () { return require('./src/encodeFunctionCall') },
-  get randomAddress () { return require('./src/randomAddress') },
   get signEIP712 () { return require('./src/signEIP712') },
   get test() {
     return {
       get zeroBalanceTest () { return balanceTests.zeroBalanceTest },
       get tokenBalanceTest () { return balanceTests.tokenBalanceTest },
       get ethBalanceTest () { return balanceTests.ethBalanceTest },
-      get chaiSolidity () { return require('./src/chaiSolidity') },
-      get deployTestTokens () { return require('./src/deployTestTokens') },
-      get deployUniswapV2 () { return require('./src/deployUniswapV2') },
-      get latestBlock () { return require('./src/latestBlock') },
+      get chaiSolidity () { return require('./src/test/chaiSolidity') },
+      get deployTestTokens () { return require('./src/test/deployTestTokens') },
+      get deployUniswapV2 () { return require('./src/test/deployUniswapV2') },
+      get latestBlock () { return require('./src/test/latestBlock') },
       get signMetaTx () { return metaTx.signMetaTx },
       get metaTxPromise () { return metaTx.metaTxPromise },
       get metaTxPromiseWithSignedData () { return metaTx.metaTxPromiseWithSignedData },
       get execMetaTx () { return metaTx.execMetaTx },
       get metaTxParamTypes () { return metaTx.metaTxParamTypes },
-      get nextAvailableBit () { return require('./src/nextAvailableBit') },
-      get splitCallData () { return require('./src/splitCallData') },
-      get testMetaTxEndpoint () { return require('./src/testMetaTxEndpoint') },
+      get nextAvailableBit () { return require('./src/test/nextAvailableBit') },
+      get randomAddress () { return require('./src/test/randomAddress') },
+      get splitCallData () { return require('./src/test/splitCallData') },
+      get testMetaTxEndpoint () { return require('./src/test/testMetaTxEndpoint') },
       get BN () { return bn.BN },
       get BN2 () { return bn.BN2 },
       get BN3 () { return bn.BN3 },
