@@ -54,7 +54,8 @@ module.exports = {
       get BN22 () { return bn.BN22 },
       get BN23 () { return bn.BN23 },
       get BN24 () { return bn.BN24 },
-      get ZERO_ADDRESS() { return constants.ZERO_ADDRESS }
+      get ZERO_ADDRESS() { return constants.ZERO_ADDRESS },
+      get MAX_UINT_256() { return '115792089237316195423570985008687907853269984665640564039457584007913129639935' }
     }
   }
 }
