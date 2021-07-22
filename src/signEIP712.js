@@ -1,5 +1,7 @@
 const _ = require('lodash')
+const { TypedDataUtils } = require('eth-sig-util')
 
+// signer is an ethers.js signer with _signTypedData() implemented
 async function signEIP712 ({
   signer,
   contractAddress,
@@ -16,9 +18,9 @@ async function signEIP712 ({
     chainId: chainId,
     verifyingContract: contractAddress
   }
-  const typedData = _getTypedData(domain, method, paramTypes, params)
+  const { typedData, typedDataHash } = _getTypedData(domain, method, paramTypes, params)
   const signature = await _signTypedData(signer, typedData)
-  return { typedData, signature }
+  return { typedData, signature, typedDataHash }
 }
 
 async function _signTypedData(signer, typedData) {
@@ -30,7 +32,7 @@ async function _signTypedData(signer, typedData) {
   return signedData
 }
 
-function _getTypedData(domain, method, paramTypes, params) {
+function _getTypedData (domain, method, paramTypes, params) {
   const methodType = _capitalize(method)
   let typedData = {
     types: {
@@ -45,7 +47,32 @@ function _getTypedData(domain, method, paramTypes, params) {
     if (_.isUndefined(paramValue)) throw new Error(`No value for param "${name}"`)
     typedData.value[name] = paramValue.toString()
   }
-  return typedData
+
+  return { typedData, typedDataHash: _getTypedDataHash(typedData, methodType) }
+}
+
+function _getTypedDataHash (typedData, primaryType) {
+  // ethers signer _signTypedData method doesn't return the hash, so use eth-sig-util to generate
+  // the hash that was signed. It requires the domain type to be explicitly defined, and expects
+  // the `message` property instead of `value`
+  //
+  // TypedDataUtils.sign is a poorly named function from
+  // eth-sig-utils (metamask's signer utility). It generates the hashed message
+  // from the given typed data, it doesn't actually do any signing
+  return `0x${TypedDataUtils.sign({
+    types: {
+      ...typedData.types,
+      EIP712Domain: [
+        { name: "name", type: "string" },
+        { name: "version", type: "string" },
+        { name: "chainId", type: "uint256" },
+        { name: "verifyingContract", type: "address" }
+      ]
+    },
+    primaryType,
+    domain: typedData.domain,
+    message: typedData.value
+  }).toString('hex')}`
 }
 
 const _capitalize = (s) => {
