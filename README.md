@@ -1,8 +1,9 @@
-# Brink
+# brink-utils
 
-In-depth documentation on Brink is available at [Brink's Gitbook](https://app.gitbook.com/@brink/s/brink/)
+A module full of fun utility functions
 
-## Local Development
-The following assumes the use of `node@>=12`
-### Install Dependencies
-`yarn install`
+## Installation
+
+```
+const utils = require('@brinkninja/utils)
+```

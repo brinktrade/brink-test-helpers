@@ -1,6 +1,5 @@
 const fs = require('fs')
 const path = require('path')
-const { ethers } = require('hardhat')
 
 const artifacts = [
   {
@@ -17,15 +16,15 @@ const artifacts = [
   }
 ]
 
-module.exports = async () => {
-  const [signer] = await ethers.getSigners()
+module.exports = async function () {
+  const [signer] = await this.ethers.getSigners()
   let _contracts = {}
 
   for (var i in artifacts) {
     const { contractName, buildPath } = artifacts[i]
     const filePath = path.join(__dirname, buildPath)
     const { abi, bytecode } = JSON.parse(fs.readFileSync(filePath, 'utf8'))
-    _contracts[contractName] = new ethers.ContractFactory(abi, bytecode, signer)
+    _contracts[contractName] = new this.ethers.ContractFactory(abi, bytecode, signer)
   }
 
   return _contracts

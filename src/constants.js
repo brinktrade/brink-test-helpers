@@ -1,9 +1,7 @@
-const { ethers } = require('hardhat')
-
-const BN = ethers.BigNumber.from
+const { BigNumber } = require('@ethersproject/bignumber')
+const { from: BN } = BigNumber
 
 module.exports = {
-  BN,
   BN2: BN(10).pow(BN(2)),
   BN3: BN(10).pow(BN(3)),
   BN4: BN(10).pow(BN(4)),
@@ -26,5 +24,8 @@ module.exports = {
   BN21: BN(10).pow(BN(21)),
   BN22: BN(10).pow(BN(22)),
   BN23: BN(10).pow(BN(23)),
-  BN24: BN(10).pow(BN(24))
+  BN24: BN(10).pow(BN(24)),
+  MAX_UINT256: '115792089237316195423570985008687907853269984665640564039457584007913129639935',
+  ZERO_ADDRESS: '0x0000000000000000000000000000000000000000',
+  ZERO_BYTES32: '0x0000000000000000000000000000000000000000000000000000000000000000'
 }

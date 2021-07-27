@@ -1,24 +1,21 @@
-const { ethers } = require('hardhat')
-const { constants } = require('@openzeppelin/test-helpers')
-const { MAX_UINT256: MAX_UINT256_BN } = constants
-const { BN, BN18 } = require('./bignumber')
+const { BigNumber } = require('@ethersproject/bignumber')
+const { from: BN } = BigNumber
+const { BN18, MAX_UINT256 } = require('../constants')
 const uniswapV2Contracts = require('../../uniswapV2/uniswapV2Contracts')
 const weth9Contract = require('../../weth9/weth9Contract')
 
-const MAX_UINT256 = BN(MAX_UINT256_BN.toString())
-
-const getSigners = async () => {
-  const [ defaultAccount, liqProvider ] = await ethers.getSigners()
+async function getSigners () {
+  const [ defaultAccount, liqProvider ] = await this.ethers.getSigners()
   return {
     defaultAccount,
     liqProvider
   }
 }
 
-const deployUniswapV2 = async () => {
+async function deployUniswapV2 () {
   const { UniswapV2Factory, UniswapV2Router02 } = await uniswapV2Contracts()
   const WETH9 = await weth9Contract()
-  const { defaultAccount, liqProvider } = await getSigners()
+  const { defaultAccount, liqProvider } = await getSigners.bind(this)
   const weth = await WETH9.deploy()
   const factory = await UniswapV2Factory.deploy(defaultAccount.address)
   const router = await UniswapV2Router02.deploy(factory.address, weth.address)
@@ -46,10 +43,10 @@ const deployUniswapV2 = async () => {
   return { weth, factory, router, tokenA, pairA, tokenB, pairB, tokenC, pairC, pairAB }
 }
 
-const _setupUniV2Pair = async ({
+async function _setupUniV2Pair ({
   factory, router, weth, token0, token1, token0Amt, token1Amt, liqProvider
-}) => {
-  const TestERC20 = await ethers.getContractFactory('TestERC20')
+}) {
+  const TestERC20 = await this.ethers.getContractFactory('TestERC20')
   const { UniswapV2Pair, UniswapV2Router02 } = await uniswapV2Contracts()
 
   if (token1 && weth && weth.address == token1.address) {

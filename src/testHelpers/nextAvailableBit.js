@@ -1,7 +1,7 @@
 const { padLeft } = require('web3-utils')
-const { ethers } = require('hardhat')
+const { BigNumber } = require('@ethersproject/bignumber')
+const { from: BN } = BigNumber
 const bnToBinaryString = require('../bnToBinaryString')
-const BN = ethers.BigNumber.from
 
 async function nextAvailableBit (contract) {
   let curBitmap, curBitmapBinStr
