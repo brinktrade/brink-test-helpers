@@ -1,6 +1,6 @@
 {
   "name": "@brinkninja/utils",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "dependencies": {
     "@ethersproject/bignumber": "^5.4.1",
     "@openzeppelin/test-helpers": "^0.5.4",
