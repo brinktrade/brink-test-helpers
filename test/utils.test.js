@@ -14,5 +14,10 @@ describe('brink-utils', function() {
         expect(block.hash).not.to.be.undefined
       })
     })
+    describe('constants', function () {
+      it('should be exported', function () {
+        expect(utils.constants).not.to.be.undefined
+      })
+    })
   })
 })
