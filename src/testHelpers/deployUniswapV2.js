@@ -1,8 +1,8 @@
 const { BigNumber } = require('@ethersproject/bignumber')
 const { from: BN } = BigNumber
 const { BN18, MAX_UINT256 } = require('../constants')
-const uniswapV2Contracts = require('../../uniswapV2/uniswapV2Contracts')
-const weth9Contract = require('../../weth9/weth9Contract')
+const uniswapV2Contracts = require('../uniswapV2/uniswapV2Contracts')
+const weth9Contract = require('../weth9/weth9Contract')
 
 async function getSigners () {
   const [ defaultAccount, liqProvider ] = await this.ethers.getSigners()

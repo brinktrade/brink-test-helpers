@@ -1,18 +1,22 @@
-const fs = require('fs')
-const path = require('path')
+const UniswapV2FactoryJSON = require('./UniswapV2Factory.json')
+const UniswapV2Pair = require('./UniswapV2Factory.json')
+const UniswapV2Router02 = require('./UniswapV2Factory.json')
 
 const artifacts = [
   {
     contractName: 'UniswapV2Factory',
-    buildPath: './UniswapV2Factory.json'
+    abi: UniswapV2FactoryJSON.abi,
+    bytecode: UniswapV2FactoryJSON.bytecode
   },
   {
     contractName: 'UniswapV2Pair',
-    buildPath: './UniswapV2Pair.json'
+    abi: UniswapV2Pair.abi,
+    bytecode: UniswapV2Pair.bytecode
   },
   {
     contractName: 'UniswapV2Router02',
-    buildPath: './UniswapV2Router02.json'
+    abi: UniswapV2Router02.abi,
+    bytecode: UniswapV2Router02.bytecode
   }
 ]
 
