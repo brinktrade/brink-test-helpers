@@ -1,8 +1,6 @@
-const chaiSolidity = require('./chaiSolidity')
 const { metaTxPromise, nextAvailableBit } = require('./metaTx')
-const { expect } = chaiSolidity()
 
-function testMetaTxEndpoint ({ only, contract, method, paramTypes, conditions }) {
+function testMetaTxEndpoint ({ expect, only, contract, method, paramTypes, conditions }) {
   const describeFn = only ? describe.only : describe
 
   for(const i in conditions) {

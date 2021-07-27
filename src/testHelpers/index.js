@@ -1,13 +1,8 @@
-const balanceTests = require('./balanceTests')
 const metaTx = require('./metaTx')
 
 class TestHelpers {
   constructor (ethers) {
     this.ethers = ethers
-    this.zeroBalanceTest = balanceTests.zeroBalanceTest.bind(this)
-    this.tokenBalanceTest = balanceTests.tokenBalanceTest.bind(this)
-    this.ethBalanceTest = balanceTests.ethBalanceTest.bind(this)
-    this.chaiSolidity = require('./chaiSolidity').bind(this)
     this.deployTestTokens = require('./deployTestTokens').bind(this)
     this.deployUniswapV2 = require('./deployUniswapV2').bind(this)
     this.latestBlock = require('./latestBlock').bind(this)
