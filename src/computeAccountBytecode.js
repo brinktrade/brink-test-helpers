@@ -1,11 +1,11 @@
 const ethJsAbi = require('ethereumjs-abi')
 const { bufferToHex } = require('ethereumjs-util')
 
-const computeAccountBytecode = (proxyBytecode, implementationAddress, ownerAddress, chainId) => {
+const computeAccountBytecode = (proxyBytecode, implementationAddress, ownerAddress) => {
   const encodedParameters = bufferToHex(
     ethJsAbi.rawEncode(
-      ['address', 'address', 'uint256'],
-      [implementationAddress, ownerAddress, chainId]
+      ['address', 'address'],
+      [implementationAddress, ownerAddress]
     )
   ).replace('0x', '')
   return `${proxyBytecode}${encodedParameters}`
