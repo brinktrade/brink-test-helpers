@@ -25,10 +25,7 @@ module.exports = async function () {
   let _contracts = {}
 
   for (var i in artifacts) {
-    const { contractName, buildPath } = artifacts[i]
-    const filePath = path.join(__dirname, buildPath)
-    const { abi, bytecode } = JSON.parse(fs.readFileSync(filePath, 'utf8'))
-    _contracts[contractName] = new this.ethers.ContractFactory(abi, bytecode, signer)
+    _contracts[artifacts[i].contractName] = new this.ethers.ContractFactory(artifacts[i].abi, artifacts[i].bytecode, signer)
   }
 
   return _contracts
