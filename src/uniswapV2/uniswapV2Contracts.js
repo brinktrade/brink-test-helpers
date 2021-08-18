@@ -25,7 +25,8 @@ module.exports = async function () {
   let _contracts = {}
 
   for (var i in artifacts) {
-    _contracts[artifacts[i].contractName] = new this.ethers.ContractFactory(artifacts[i].abi, artifacts[i].bytecode, signer)
+    const { contractName, abi, bytecode } = artifacts[i]
+    _contracts[contractName] = new this.ethers.ContractFactory(abi, bytecode, signer)
   }
 
   return _contracts
