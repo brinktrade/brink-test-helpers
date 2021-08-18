@@ -1,6 +1,6 @@
 const UniswapV2FactoryJSON = require('./UniswapV2Factory.json')
-const UniswapV2Pair = require('./UniswapV2Factory.json')
-const UniswapV2Router02 = require('./UniswapV2Factory.json')
+const UniswapV2Pair = require('./UniswapV2Pair.json')
+const UniswapV2Router02 = require('./UniswapV2Router02.json')
 
 const artifacts = [
   {
