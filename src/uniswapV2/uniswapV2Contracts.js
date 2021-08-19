@@ -1,6 +1,6 @@
 const UniswapV2FactoryJSON = require('./UniswapV2Factory.json')
-const UniswapV2Pair = require('./UniswapV2Factory.json')
-const UniswapV2Router02 = require('./UniswapV2Factory.json')
+const UniswapV2Pair = require('./UniswapV2Pair.json')
+const UniswapV2Router02 = require('./UniswapV2Router02.json')
 
 const artifacts = [
   {
@@ -25,9 +25,7 @@ module.exports = async function () {
   let _contracts = {}
 
   for (var i in artifacts) {
-    const { contractName, buildPath } = artifacts[i]
-    const filePath = path.join(__dirname, buildPath)
-    const { abi, bytecode } = JSON.parse(fs.readFileSync(filePath, 'utf8'))
+    const { contractName, abi, bytecode } = artifacts[i]
     _contracts[contractName] = new this.ethers.ContractFactory(abi, bytecode, signer)
   }
 

@@ -15,7 +15,7 @@ async function getSigners () {
 async function deployUniswapV2 () {
   const { UniswapV2Factory, UniswapV2Router02 } = await uniswapV2Contracts()
   const WETH9 = await weth9Contract()
-  const { defaultAccount, liqProvider } = await getSigners.bind(this)
+  const { defaultAccount, liqProvider } = await getSigners.bind(this)()
   const weth = await WETH9.deploy()
   const factory = await UniswapV2Factory.deploy(defaultAccount.address)
   const router = await UniswapV2Router02.deploy(factory.address, weth.address)
