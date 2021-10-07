@@ -20,4 +20,13 @@ describe('brink-utils', function() {
       })
     })
   })
+
+  describe('fetchGasPrices', function () {
+    it('should return latest gas prices', async function () {
+      const gasPrices = await utils.fetchGasPrices()
+      expect(gasPrices).not.to.be.undefined
+      expect(gasPrices.fast.gte(gasPrices.standard)).to.be.true;
+      expect(gasPrices.standard.gte(gasPrices.safe)).to.be.true;
+    })
+  })
 })
