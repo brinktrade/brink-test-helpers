@@ -4,7 +4,8 @@ const signMetaTx = async ({
   contract,
   method,
   signer,
-  params = []
+  params = [],
+  chainId = 1
 }) => {
   const paramTypes = metaTxParamTypes[method]
   if (!paramTypes) throw new Error(`unknown method ${method}`)
@@ -14,7 +15,7 @@ const signMetaTx = async ({
     contractAddress: contract.address,
     contractName: 'BrinkAccount',
     contractVersion: '1',
-    chainId: 1,
+    chainId,
     method,
     paramTypes,
     params
@@ -28,14 +29,16 @@ const metaTxPromise = async ({
   signer,
   params = [],
   unsignedData,
-  value = 0
+  value = 0,
+  chainId
 }) => {
   const unsignedParams = unsignedData ? [unsignedData] : []
   const signedData = await signMetaTx({
     contract,
     method,
     signer,
-    params
+    params,
+    chainId
   })
   let opts = { value }
   const promise = contract[method].apply(this, [
@@ -70,7 +73,8 @@ const execMetaTx = async ({
   signer,
   params = [],
   unsignedData,
-  value
+  value,
+  chainId
 }) => {
   const { promise, signedData } = await metaTxPromise({
     contract,
@@ -78,7 +82,8 @@ const execMetaTx = async ({
     signer,
     params,
     unsignedData,
-    value
+    value,
+    chainId
   })
   const tx = await promise
   return { tx, signedData }
