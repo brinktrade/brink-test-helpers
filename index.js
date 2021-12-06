@@ -12,5 +12,6 @@ module.exports = {
   get encodeFunctionCall () { return require('./src/encodeFunctionCall') },
   get signEIP712 () { return require('./src/signEIP712') },
   get splitCallData () { return require('./src/splitCallData') },
-  get testHelpers() { return require('./src/testHelpers') },
+  get testHelpers () { return require('./src/testHelpers') },
+  get fetchGasPrices () { return require('./src/fetchGasPrices') },
 }
