@@ -1,4 +1,5 @@
 const { TypedDataUtils } = require('eth-sig-util')
+const _ = require('lodash')
 
 function getTypedDataHash (typedData, primaryType) {
   // ethers signer _signTypedData method doesn't return the hash, so use eth-sig-util to generate

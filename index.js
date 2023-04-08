@@ -14,5 +14,6 @@ module.exports = {
   get splitCallData () { return require('./src/splitCallData') },
   get testHelpers () { return require('./src/testHelpers') },
   get fetchGasPrices () { return require('./src/fetchGasPrices') },
-  get getTypedData () { return require('./src/getTypedData') },
+  get getTypedData () { return require('./src/typedData').getTypedData },
+  get getTypedDataHash () { return require('./src/typedData').getTypedDataHash },
 }

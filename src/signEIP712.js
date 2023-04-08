@@ -1,5 +1,5 @@
 const _ = require('lodash')
-const { getTypedData } = require('./getTypedData')
+const { getTypedData } = require('./typedData')
 // signer is an ethers.js signer with _signTypedData() implemented
 async function signEIP712 ({
   signer,
